@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.ooni.probe.data.models.MeasurementModel
 import org.ooni.probe.data.models.MeasurementWithUrl
+import org.ooni.probe.data.models.explorerUrl
+import org.ooni.probe.data.models.webViewUrl
 
 class MeasurementViewModel(
     measurementId: MeasurementModel.Id,

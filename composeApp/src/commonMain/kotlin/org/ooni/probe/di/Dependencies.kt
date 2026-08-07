@@ -135,6 +135,8 @@ import org.ooni.probe.shared.ConnectivityMonitor
 import org.ooni.probe.shared.PlatformInfo
 import org.ooni.probe.shared.monitoring.AppLogger
 import org.ooni.probe.shared.monitoring.CrashMonitoring
+import org.ooni.probe.shared.monitoring.Instrumentation
+import org.ooni.probe.shared.monitoring.createInstrumentationDelegate
 import org.ooni.probe.ui.articles.ArticleViewModel
 import org.ooni.probe.ui.articles.ArticlesViewModel
 import org.ooni.probe.ui.choosewebsites.ChooseWebsitesViewModel
@@ -195,6 +197,12 @@ class Dependencies(
     private val supportedLanguageTags: List<String> = SharedBuildConfig.SUPPORTED_LANGUAGES,
     private val databaseContext: CoroutineContext = Dispatchers.IO,
 ) {
+    init {
+        // Install the platform's real (Sentry-backed) instrumentation delegate into probeCore's
+        // no-op Instrumentation. The CLI leaves the no-op default in place.
+        Instrumentation.delegate = createInstrumentationDelegate()
+    }
+
     private val resolverTypeMapper: ResolverTypeMapper by lazy { ResolverTypeMapper() }
 
     private val resolverTypeFinder: ResolverTypeFinder by lazy {
@@ -306,6 +314,14 @@ class Dependencies(
         )
     }
 
+    private val coreConfig by lazy {
+        org.ooni.probe.config.CoreConfig(
+            baseSoftwareName = OrganizationConfig.baseSoftwareName,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
+            passportVersion = SharedBuildConfig.PASSPORT_VERSION,
+        )
+    }
+
     @VisibleForTesting
     val engine by lazy {
         Engine(
@@ -317,6 +333,7 @@ class Dependencies(
             networkTypeFinder = networkTypeFinder,
             resolverTypeFinder = resolverTypeFinder,
             platformInfo = platformInfo,
+            coreConfig = coreConfig,
             getEnginePreferences = getEnginePreferences::invoke,
             addRunCancelListener = runBackgroundStateManager::addCancelListener,
             backgroundContext = backgroundContext,
@@ -346,6 +363,7 @@ class Dependencies(
             platformInfo = platformInfo,
             getBatteryState = getBatteryState::invoke,
             networkTypeFinder = networkTypeFinder,
+            coreConfig = coreConfig,
         )
     }
     val cancelCurrentTest get() = runBackgroundStateManager::cancel
@@ -361,6 +379,7 @@ class Dependencies(
             buildCheckInRequest = buildCheckInRequest::invoke,
             json = json,
             setPreferenceByKey = preferenceRepository::setValueByKey,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
         )
     }
     private val checkAutoRunConstraints by lazy {
@@ -493,6 +512,7 @@ class Dependencies(
             backgroundContext = backgroundContext,
             json = json,
             retrieveManifest = retrieveManifest::invoke,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
         )
     }
     val prepareAnonymousCredentials by lazy {
@@ -654,6 +674,7 @@ class Dependencies(
             setPreference = preferenceRepository::setValueByKey,
             json = json,
             backgroundContext = backgroundContext,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
         )
     }
     private val runDescriptors by lazy {
@@ -811,6 +832,8 @@ class Dependencies(
             },
             json = json,
             handleSubmitOutcome = handleSubmitOutcome::invoke,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
+            ooniApiFallbackUrl = OrganizationConfig.ooniApiFallbackUrl,
         )
     }
     private val resolveSubmissionPolicy by lazy { ResolveSubmissionPolicy() }
@@ -835,6 +858,7 @@ class Dependencies(
                 passportHttpClient.get(url, proxy, timeout = PassportTimeouts.PREFETCH_SECONDS)
             },
             backgroundContext = backgroundContext,
+            ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
         )
     }
 

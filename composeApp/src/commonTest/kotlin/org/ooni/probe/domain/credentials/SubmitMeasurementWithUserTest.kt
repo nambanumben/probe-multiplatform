@@ -39,6 +39,8 @@ class SubmitMeasurementWithUserTest {
             json = json,
         ),
         resolveSubmissionPolicy = ResolveSubmissionPolicy(),
+        ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
+        ooniApiFallbackUrl = OrganizationConfig.ooniApiFallbackUrl,
         userAuthSubmit = { _, _, _, _, _ -> Success(response) },
         json = json,
         handleSubmitOutcome = { _, error -> onSubmitOutcome(error) },
@@ -61,6 +63,8 @@ class SubmitMeasurementWithUserTest {
                     json = json,
                 ),
                 resolveSubmissionPolicy = ResolveSubmissionPolicy(),
+                ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
+                ooniApiFallbackUrl = OrganizationConfig.ooniApiFallbackUrl,
                 userAuthSubmit = { url, _, _, _, _ ->
                     calledUrls.add(url)
                     Success(
@@ -105,6 +109,8 @@ class SubmitMeasurementWithUserTest {
                     json = json,
                 ),
                 resolveSubmissionPolicy = ResolveSubmissionPolicy(),
+                ooniApiBaseUrl = OrganizationConfig.ooniApiBaseUrl,
+                ooniApiFallbackUrl = OrganizationConfig.ooniApiFallbackUrl,
                 userAuthSubmit = { url, _, _, _, _ ->
                     calledUrls.add(url)
                     when {
