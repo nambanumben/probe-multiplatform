@@ -47,6 +47,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import org.ooni.engine.models.SummaryType
+import org.ooni.probe.data.models.unitStringRes
 import org.ooni.probe.data.models.ResultListItem
 import org.ooni.probe.data.models.downloadSpeed
 import org.ooni.probe.data.models.uploadSpeed
@@ -198,7 +199,7 @@ private fun ResultCounts(item: ResultListItem) {
                     text = stringResource(
                         Res.string.twoParam,
                         it.scaledValue,
-                        stringResource(it.unitStringId),
+                        stringResource(it.unitStringRes),
                     ),
                 )
             }
@@ -208,7 +209,7 @@ private fun ResultCounts(item: ResultListItem) {
                     text = stringResource(
                         Res.string.twoParam,
                         it.scaledValue,
-                        stringResource(it.unitStringId),
+                        stringResource(it.unitStringRes),
                     ),
                 )
             }

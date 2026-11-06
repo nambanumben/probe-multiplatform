@@ -1,6 +1,7 @@
 package org.ooni.probe.screenshots
 
 import androidx.compose.runtime.Composable
+import org.ooni.probe.data.models.title
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.platform.LocalDensity
@@ -47,7 +48,7 @@ import org.ooni.probe.data.models.Descriptor
 import org.ooni.probe.data.models.OoniTest
 import org.ooni.probe.data.models.SettingsKey
 import org.ooni.probe.data.models.toDescriptorItem
-import org.ooni.probe.di.Dependencies
+import org.ooni.probe.di.ComposeDependencies
 import org.ooni.probe.domain.credentials.AnonymousCredentialsHealth
 import org.ooni.probe.ui.dashboard.DashboardScreen
 import org.ooni.probe.ui.dashboard.DashboardViewModel
@@ -571,7 +572,7 @@ class DesktopScreenshotsTest {
         private const val DEFAULT_HEIGHT = 800
         private const val DEFAULT_DENSITY = 1f
 
-        // Shared per JVM: a single tempDir + Dependencies survives every @Test method.
+        // Shared per JVM: a single tempDir + ComposeDependencies survives every @Test method.
         // DatabaseHelper.initialize() ignores subsequent calls (singleton), so we only
         // get one chance to wire it; per-test re-seeding goes through DatabaseHelper.setup().
         private val workingDir: Path =
@@ -581,7 +582,7 @@ class DesktopScreenshotsTest {
                 )
             }
 
-        private val dependencies: Dependencies =
+        private val dependencies: ComposeDependencies =
             buildScreenshotDependencies(workingDir).also { deps ->
                 // Compose-native facsimile replaces JavaFX WebView; see ScreenshotOoniWebView.kt.
                 installScreenshotWebViewOverride()

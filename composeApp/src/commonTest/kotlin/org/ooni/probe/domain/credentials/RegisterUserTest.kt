@@ -48,6 +48,7 @@ class RegisterUserTest {
                 },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -82,6 +83,7 @@ class RegisterUserTest {
                 setCredential = { true },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -112,6 +114,7 @@ class RegisterUserTest {
                 setCredential = { true },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -142,6 +145,7 @@ class RegisterUserTest {
                 setCredential = { true },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -162,6 +166,7 @@ class RegisterUserTest {
                 setCredential = { true },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -192,6 +197,7 @@ class RegisterUserTest {
                 setCredential = { false },
                 backgroundContext = coroutineContext,
                 json = json,
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(
@@ -242,6 +248,7 @@ class RegisterUserTest {
                 backgroundContext = coroutineContext,
                 json = json,
                 retrieveManifest = { refreshedManifest },
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             val result = registerUser(TEST_PUBLIC_PARAMS, TEST_MANIFEST_VERSION)
@@ -277,6 +284,7 @@ class RegisterUserTest {
                 backgroundContext = coroutineContext,
                 json = json,
                 retrieveManifest = { error("manifest refresh unavailable") },
+                ooniApiBaseUrl = "https://api.ooni.io",
             )
 
             assertNull(registerUser(TEST_PUBLIC_PARAMS, TEST_MANIFEST_VERSION))
